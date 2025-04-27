@@ -1,0 +1,46 @@
+@font-face {
+    font-family: "udar";
+    src: url('img/Lover-unity.otf');
+}
+
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: udar;
+}
+
+.header_main{
+    height: 100px;
+    background-color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+.main_h{
+    text-decoration: none;
+    color: white;
+}
+img{
+    width: 150px;
+    
+}
+.main_d{
+    display: flex;
+    margin-top: 25px;
+    justify-content: center;
+    align-items: end;
+}
+.new_card_d{
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+.chipslistmain{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
