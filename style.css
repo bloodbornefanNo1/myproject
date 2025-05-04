@@ -10,7 +10,10 @@
     box-sizing: border-box;
     font-family: udar;
 }
-
+.mainmain{
+    background-color: rgb(177, 177, 177);
+    color: rgb(0, 75, 141);
+}
 .header_main{
     height: 100px;
     background-color: blue;
@@ -33,14 +36,55 @@ img{
     margin-top: 25px;
     justify-content: center;
     align-items: end;
+    
+   
 }
 .new_card_d{
     display: flex;
     justify-content: center;
-    margin-top: 25px;
+    padding: 25px;
 }
 .chipslistmain{
     display: flex;
-    justify-content: center;
+    justify-content:space-around;
     margin-top: 10px;
+}
+.opencards{
+    display: flex;
+    text-align: center;
+    height: 100px;
+    justify-content: space-around;
+    align-items: center;
+    
+    
+}
+.playcards{
+    font-size: larger;
+
+}
+.raisepot{
+    font-size: larger;
+}
+.main_d > img:hover{
+    
+    width: 155px;
+    box-shadow: 0px 0px 16px gray;
+    border-radius: 10px;
+    border: 2px solid rgba(143, 143, 143, 0.733);
+
+}
+button:hover{
+    background-color: steelblue;
+    color: white;
+    width: 140px;
+    box-shadow: 0px 0px 16px rgb(2, 2, 2);
+    border: none;
+    border-radius: 10px;
+}
+button{
+    background-color:  rgb(177, 177, 177);
+    border-radius: 10px;
+    border: 2px solid rgb(145, 145, 145);
+    box-shadow: 0px 0px 8px rgb(97, 97, 97);
+    color: rgb(0, 75, 141)
 }

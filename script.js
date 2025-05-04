@@ -6,21 +6,32 @@ let new_card = document.querySelector(".new_card")
 let count = document.querySelector(".chips")
 let enemy = document.querySelector(".enemypoints")
 let hands = document.querySelector(".hands")
+let openbutton = document.querySelector(".playcards")
+let urmoney = document.querySelector(".urmoney")
+let raisepot = document.querySelector(".raisepot")
+let pot = document.querySelector(".pot")
+
+
+let isDragging = false;
+let offsetX, offsetY;
+
+let potcount = 0
 let e = 2
 let a = 0
 let f = 5
 let g = 1
-while (hand < e) {
 
-    a = Math.round((Math.random() * 34) + 1)
-    chipslist.push(a)
-    const img = document.createElement("img")
-    img.src = `./cards/${a}.webp`
-    main_d.appendChild(img)
-    hand++
-
+let money = localStorage.getItem("money")
+if(money > 5){
+    money -= 5
+    potcount += 10
 }
-
+if(money == null){
+    money = 100
+}
+if (money <= 0){
+    money = 100
+}
 function handler_new_card() {
     f -= 1
     hands.innerText = f
@@ -44,7 +55,16 @@ new_card.addEventListener('click',
 function chipscount() {
 
 
+    while (hand < e) {
 
+        a = Math.round((Math.random() * 34) + 1)
+        chipslist.push(a)
+        const img = document.createElement("img")
+        img.src = `./cards/${a}.webp`
+        main_d.appendChild(img)
+        hand++
+    
+    }
 
     let c = 0
 
@@ -183,3 +203,105 @@ function enemycards() {
 enemycards()
 console.log(enemychipslist)
 console.log(chipslist)
+openbutton.addEventListener("click", 
+    () => {
+        if(chips > 21 & enemychips > 21){
+            if(chips < enemychips){
+                alert("u won!!!!!!!")
+                money += potcount
+                localStorage.setItem("money", money)
+
+                location.reload()
+            
+            }
+            else if(chips > enemychips){
+                alert("ure loser")
+                location.reload()
+            }
+            
+        }
+        else if(chips > 21 & enemychips < 21){
+            alert("ure loser")
+            location.reload()
+        }
+        else if(chips < 21 & enemychips > 21){
+            alert("u won!!!!!!!!!!")
+            money += potcount
+            localStorage.setItem("money", money)
+            location.reload()
+        }
+        else if (chips < 21 & enemychips < 21){
+            if(chips > enemychips){
+                alert("u won!!!!!!!")
+                money += potcount
+                localStorage.setItem("money", money)
+
+                location.reload()
+            }
+            else if(chips < enemychips){
+                alert("ure loser")
+                location.reload()
+                
+            }
+        
+        }
+        else if (chips == 21 & enemychips > 21 || enemychips < 21)
+           {alert("u won")
+            money += potcount
+            localStorage.setItem("money", money)
+            location.reload()} 
+        else if (enemychips == 21 & chips > 21 || chips < 21){
+            alert("u lose")
+            location.reload()
+        }
+        else if (chips == enemychips){
+            alert("draw")
+            money += potcount / 2
+            localStorage.setItem("money", money)
+            location.reload()
+        }
+    }
+)
+pot.innerText = `pot: ${potcount}`
+urmoney.innerText = `money: ${money}`
+raisepot.addEventListener("click", 
+    () => {
+        money -= 5
+        potcount += 10
+        pot.innerText = `pot: ${potcount}`
+urmoney.innerText = `money: ${money}`
+localStorage.setItem("money", money)
+if (money <= 5){
+    potcount -= 10
+    money += 5
+}
+
+    })
+
+    
+// Обработчик нажатия мыши на картинку
+img.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    
+    // Вычисляем смещение курсора относительно верхнего левого угла картинки
+    offsetX = e.clientX - img.getBoundingClientRect().left;
+    offsetY = e.clientY - img.getBoundingClientRect().top;
+    
+    // Изменяем курсор при перетаскивании
+    img.style.cursor = 'grabbing';
+});
+
+// Обработчик движения мыши по документу
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    
+    // Устанавливаем новую позицию картинки
+    img.style.left = (e.clientX - offsetX) + 'px';
+    img.style.top = (e.clientY - offsetY) + 'px';
+});
+
+// Обработчик отпускания кнопки мыши
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+    img.style.cursor = 'move';
+});
