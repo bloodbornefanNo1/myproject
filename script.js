@@ -29,7 +29,9 @@ function handler_new_card() {
     const img = document.createElement("img")
     img.src = `./cards/${a}.webp`
     main_d.appendChild(img)
+    chips = 0
     chipscount()
+    
     if (f < 1) {
         new_card.removeEventListener("click", handler_new_card)
     }
@@ -86,15 +88,15 @@ function chipscount() {
             c++
         }
         else if (21 <= d & d < 25) {
-            chips += 3
+            chips += 2
             c++
         }
         else if (25 <= d & d < 28) {
-            chips += 4
+            chips += 3
             c++
         }
         else if (28 <= d & d < 32) {
-            chips += 5
+            chips += 4
             c++
         }
         else if (32 <= d & d <= 35) {
@@ -102,7 +104,7 @@ function chipscount() {
             c++
         }
         count.innerText = `chips: ${chips}`
-
+        const chipsrn = chips
     }
 }
 chipscount()
@@ -154,26 +156,28 @@ function enemycards() {
             enemychips += 10
         }
         else if (21 <= enemyd & enemyd < 25) {
-            enemychips += 3
+            enemychips += 2
         }
         else if (25 <= enemyd & enemyd < 28) {
-            enemychips += 4
+            enemychips += 3
         }
         else if (28 <= enemyd & enemyd < 32) {
-            enemychips += 5
+            enemychips += 4
         }
         else if (32 <= enemyd & enemyd <= 35) {
             enemychips += 11
         }
         
     }
-    if (enemychips < 15){
+   
+        
+        } 
+        if (enemychips < 15){
             enemyi = Math.round((Math.random() * 34) + 1)
         enemychipslist.push(enemyi)
-        h++
+        enemychips = 0
         enemycards()
-        }
-    alert(enemychips)
+        alert(enemychips)
     
 }
 enemycards()
