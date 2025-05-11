@@ -10,7 +10,7 @@ let openbutton = document.querySelector(".playcards")
 let urmoney = document.querySelector(".urmoney")
 let raisepot = document.querySelector(".raisepot")
 let pot = document.querySelector(".pot")
-
+let secretcard = document.querySelector(".secretcard")
 
 let isDragging = false;
 let offsetX, offsetY;
@@ -22,14 +22,19 @@ let f = 5
 let g = 1
 
 let money = localStorage.getItem("money")
-if(money > 5){
+if (money > 100) {
+    potcount = money / 100 * 90 * 2
+    money = money / 100 * 90
+
+}
+if (money > 5) {
     money -= 5
     potcount += 10
 }
-if(money == null){
+if (money == null) {
     money = 100
 }
-if (money <= 0){
+if (money <= 0) {
     money = 100
 }
 function handler_new_card() {
@@ -42,7 +47,7 @@ function handler_new_card() {
     main_d.appendChild(img)
     chips = 0
     chipscount()
-    
+
     if (f < 1) {
         new_card.removeEventListener("click", handler_new_card)
     }
@@ -51,7 +56,7 @@ function handler_new_card() {
 hands.innerText = f
 new_card.addEventListener('click',
     handler_new_card);
-    let chips = 0
+let chips = 0
 function chipscount() {
 
 
@@ -63,7 +68,7 @@ function chipscount() {
         img.src = `./cards/${a}.webp`
         main_d.appendChild(img)
         hand++
-    
+
     }
 
     let c = 0
@@ -128,21 +133,25 @@ function chipscount() {
     }
 }
 chipscount()
-h = 0
+let h = 0
+let k = 4
 let enemyi = 0
 let enemychipslist = []
-let k = 2
-while (h < k) {
+
+function enemygivecards() {
+    while (h < k) {
         enemyi = Math.round((Math.random() * 34) + 1)
         enemychipslist.push(enemyi)
         h++
     }
-    let enemychips = 0
+}
+enemygivecards()
+let enemychips = 0
 
-    let enemyc = 0
+let enemyc = 0
 function enemycards() {
 
-    
+
 
     const enemychipslen = enemychipslist.length
     while (enemyc < enemychipslen) {
@@ -187,74 +196,81 @@ function enemycards() {
         else if (32 <= enemyd & enemyd <= 35) {
             enemychips += 11
         }
-        
+
+
+
     }
-   
-        
-        } 
-        if (enemychips < 15){
-            enemyi = Math.round((Math.random() * 34) + 1)
-        enemychipslist.push(enemyi)
-        enemychips = 0
-        enemycards()
-        alert(enemychips)
-    
+
+
 }
 enemycards()
+
+alert(enemychips)
+while (enemychips > 24) {
+    enemychips -= 3
+}
+while (enemychips < 17) {
+    enemychips += 4
+}
+alert(enemychips)
+
+
 console.log(enemychipslist)
 console.log(chipslist)
-openbutton.addEventListener("click", 
+
+openbutton.addEventListener("click",
     () => {
-        if(chips > 21 & enemychips > 21){
-            if(chips < enemychips){
+        if (chips > 21 & enemychips > 21) {
+            if (chips < enemychips) {
                 alert("u won!!!!!!!")
                 money += potcount
                 localStorage.setItem("money", money)
 
                 location.reload()
-            
+
             }
-            else if(chips > enemychips){
+            else if (chips > enemychips) {
                 alert("ure loser")
                 location.reload()
             }
-            
+
         }
-        else if(chips > 21 & enemychips < 21){
+        else if (chips > 21 & enemychips < 21) {
             alert("ure loser")
             location.reload()
         }
-        else if(chips < 21 & enemychips > 21){
+        else if (chips < 21 & enemychips > 21) {
             alert("u won!!!!!!!!!!")
             money += potcount
             localStorage.setItem("money", money)
             location.reload()
         }
-        else if (chips < 21 & enemychips < 21){
-            if(chips > enemychips){
+        else if (chips < 21 & enemychips < 21) {
+            if (chips > enemychips) {
                 alert("u won!!!!!!!")
                 money += potcount
                 localStorage.setItem("money", money)
 
                 location.reload()
             }
-            else if(chips < enemychips){
+            else if (chips < enemychips) {
                 alert("ure loser")
                 location.reload()
-                
+
             }
-        
+
         }
-        else if (chips == 21 & enemychips > 21 || enemychips < 21)
-           {alert("u won")
+        else if (chips == 21 & enemychips > 21 || enemychips < 21) {
+            alert("u won")
             money += potcount
             localStorage.setItem("money", money)
-            location.reload()} 
-        else if (enemychips == 21 & chips > 21 || chips < 21){
+            location.reload()
+        }
+        else if (enemychips == 21 & chips > 21 || chips < 21) {
             alert("u lose")
             location.reload()
         }
-        else if (chips == enemychips){
+        else if (chips == enemychips) {
             alert("draw")
             money += potcount / 2
             localStorage.setItem("money", money)
@@ -264,44 +280,86 @@ openbutton.addEventListener("click",
 )
 pot.innerText = `pot: ${potcount}`
 urmoney.innerText = `money: ${money}`
-raisepot.addEventListener("click", 
+raisepot.addEventListener("click",
     () => {
         money -= 5
         potcount += 10
         pot.innerText = `pot: ${potcount}`
-urmoney.innerText = `money: ${money}`
-localStorage.setItem("money", money)
-if (money <= 5){
-    potcount -= 10
-    money += 5
-}
+        urmoney.innerText = `money: ${money}`
+        localStorage.setItem("money", money)
+        if (money <= 5) {
+            potcount -= 10
+            money += 5
+        }
 
     })
 
-    
-// Обработчик нажатия мыши на картинку
-img.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    
-    // Вычисляем смещение курсора относительно верхнего левого угла картинки
-    offsetX = e.clientX - img.getBoundingClientRect().left;
-    offsetY = e.clientY - img.getBoundingClientRect().top;
-    
-    // Изменяем курсор при перетаскивании
-    img.style.cursor = 'grabbing';
-});
 
-// Обработчик движения мыши по документу
-document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    
-    // Устанавливаем новую позицию картинки
-    img.style.left = (e.clientX - offsetX) + 'px';
-    img.style.top = (e.clientY - offsetY) + 'px';
-});
 
-// Обработчик отпускания кнопки мыши
-document.addEventListener('mouseup', () => {
-    isDragging = false;
-    img.style.cursor = 'move';
-});
+
+
+secretcard.addEventListener("click",
+    () => {
+        let secretcardnum = Math.round((Math.random() * 10) + 1)
+        // let secretcardnum = 8
+        if (secretcardnum == 1) {
+            alert("gain + 500 money!!!")
+            money += 500
+        }
+        else if (secretcardnum == 2) {
+            alert("loooooooser!!!!!!")
+            money = money / 2
+            localStorage.setItem("money", money)
+            location.reload()
+        }
+        else if (secretcardnum == 4) {
+            alert("im doing everything for u!!!!!!!!!")
+            potcount += money - 5
+            money = 5
+            potcount = potcount * 4
+
+        }
+        else if (secretcardnum == 3) {
+            // alert("stop gambling bruh, go read bible")
+
+            // window.location.replace("https://prayerlit.com/bible-verses-about-gambling/")
+            alert(secretcardnum)
+        }
+        else if (secretcardnum == 5) {
+            alert("ok u won twin")
+            money = money + potcount
+            location.reload()
+        }
+        else if (secretcardnum == 6) {
+            alert("vision through cards")
+            alert(`enemychips = ${enemychips}`)
+        }
+        else if (secretcardnum == 7) {
+            alert("nothing happened")
+        }
+        else if (secretcardnum == 8) {
+            alert("nothing happened")
+        }
+        else if (secretcardnum == 9) {
+           alert("ur lucky twin")
+           money = money**2
+        }
+        else if (secretcardnum == 10){
+            alert("nothing happened")
+        }
+
+
+
+
+
+
+
+
+
+
+
+        pot.innerText = `pot: ${potcount}`
+        urmoney.innerText = `money: ${money}`
+        localStorage.setItem("money", money)
+    }
+)
