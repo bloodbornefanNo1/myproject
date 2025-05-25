@@ -19,6 +19,7 @@ const modalone = document.getElementById("myModal");
 const modaltwo = document.getElementById("myModalt");
 const closeBtn = document.querySelector(".close");
 let wins = 0
+
 const modalthree = document.getElementById("modalthree")
 if (localStorage.getItem("wins") >= 1){
     wins = wins + localStorage.getItem(wins)
@@ -464,7 +465,8 @@ secretcard.addEventListener("click",
         else if (secretcardnum == 9) {
             modalpa.innerText = "ur lucky twin!!!"
             modalthree.style.display = "block";
-            money = money ** 10
+            
+            money = money ** 3
         }
         else if (secretcardnum == 10) {
             modalpa.innerText = "nothing happened"
